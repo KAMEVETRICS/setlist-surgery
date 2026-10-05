@@ -53,3 +53,11 @@ The user requested a commit to `KAMEVETRICS/setlist-surgery` with unnecessary fi
 Omitted unused UI components, database/examples, generic public SVGs, generated Studio runtime/schema files, local outputs, credentials, and the Sites/Cloudflare build and connector adapters. Reduced root dependencies to Next.js, React, React DOM, Lucide, Tailwind tooling, TypeScript, and types. The API now reads only Node server environment variables, with the existing service rules unchanged. The root dev/build/start scripts use standard Next.js, and Vercel uses the repository root with Node 24. No Vercel deployment is claimed yet.
 
 The cleaned app passed the 20 domain/service tests, standalone typecheck, and production build. Tested the built Node server against real Sanity: rescue at 30:40, rehearsal, approval after reload, stale write rejection, edit invalidation, and origin protection. A local loopback alias initially triggered Next.js URL normalization; using the documented localhost origin passed. The final cleanup review found two Minor documentation references and no material issues; both references were corrected. The credential/source audit passed. Removed the redundant page wrapper and empty Next.js config as well.
+
+## Public Vercel verification
+
+The user provided `https://setlist-surgery.vercel.app/` after deploying the GitHub app. The public homepage returned 200 and opened in a fresh browser tab without requiring sign-in. The browser displayed Sanity connected, and the production API reported the configured project.
+
+Repeated the live HTTP checks on Vercel: cancellation, three replacements, 30:40 runtime, rehearsal, approval after reload, stale revision rejection, edit invalidation, and origin protection all passed. Independently completed the rescue in the hosted browser, reloaded, and confirmed the saved six-song running order and Approved state. Captured and inspected the actual Vercel screen in `docs/images/sanity-approved.jpg`.
+
+Updated the README, verification record, and DEV draft to use the public Vercel URL. The draft now embeds the GitHub-hosted screenshot and links to the cleaned source repository. No DEV article has been published.

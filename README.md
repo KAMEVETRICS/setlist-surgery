@@ -4,6 +4,8 @@ A bassist cancels. Three songs stop being playable. Rescue the running order usi
 
 Built with Next.js, React, and Sanity for the [Sanity Challenge, Path Two](https://dev.to/challenges/sanity-2026-09-16). The Static Lines, their crew, and all twelve song arrangements are original fictional demonstration data. No audio or lyrics are included.
 
+[Try the live app](https://setlist-surgery.vercel.app/). No account is required; changes save to Sanity.
+
 ![An approved 30:40 set saved to Sanity](docs/images/sanity-approved.jpg)
 
 ## Run locally
@@ -42,7 +44,7 @@ Import [KAMEVETRICS/setlist-surgery](https://github.com/KAMEVETRICS/setlist-surg
 
 Add `SANITY_PROJECT_ID`, `SANITY_DATASET`, and `SANITY_API_TOKEN` in Vercel's environment settings for the environments that need live Sanity. Mark the token sensitive, keep it server-only, and deploy after setting the variables. Do not use a `NEXT_PUBLIC_` prefix for the token. The app's browser talks to its own `/api/show`; Sanity requests originate on the server.
 
-After deployment, verify the connection badge, rescue a show, approve it, and reload. A Vercel deployment has not yet been created. The existing [Sites preview](https://setlist-surgery.gabrieltopeawe.chatgpt.site) is owner-private.
+The [live Vercel deployment](https://setlist-surgery.vercel.app/) was verified against the real Sanity dataset: cancellation, replacements, rehearsal, approval after reload, stale-write rejection, edit invalidation, and origin protection all passed. For another deployment, verify the connection badge and the rescue flow after configuring its environment.
 
 See the [Vercel Next.js guide](https://vercel.com/docs/frameworks/full-stack/nextjs) and [environment variable settings](https://vercel.com/docs/environment-variables).
 

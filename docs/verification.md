@@ -21,10 +21,9 @@
 ## Pending / limits
 
 - Actual print dialog/output has not yet been captured. The app provides an approval-only print button and a dedicated print stylesheet.
-- Current hosting audience is owner-private. Judges need accessible hosting or tested access instructions before DEV submission.
 - Optional App SDK editor and Sanity Workflows product integration are absent; the app does not claim them.
 - DEV submission is a draft and has not been published.
-- The original source is synchronized to the managed Sites repository. This cleaned checkout targets `KAMEVETRICS/setlist-surgery` on GitHub and includes the approved screenshot in `docs/images/`. Vercel deployment and DEV screenshot upload/publication remain submission steps.
+- The original source is synchronized to the managed Sites repository. This cleaned checkout is published at `KAMEVETRICS/setlist-surgery` on GitHub. The DEV draft includes the public Vercel demo and GitHub-hosted screenshot; DEV publication remains pending.
 
 ## Design QA
 
@@ -44,4 +43,11 @@ Earlier dual-target Next.js 16.3.4 production build: passed with routes / and /a
 - Built Next.js server with the real server environment: homepage returned 200; live API performed the bassist cancellation and three replacements; calculated 30:40; rehearsal/approval/reload succeeded; stale revision returned 409; reorder invalidated review; foreign-origin writes returned 403.
 - The first local HTTP check used a numeric loopback host; NextRequest normalizes that host to localhost. Rerunning against the documented localhost URL passed without weakening origin protection.
 - Bounded final cleanup review found no Critical/Important issues. Corrected the two Minor setup references it found.
-- Source audit checked the complete file selection for local credential filenames and the configured token. Neither was included. Vercel environment setup and deployment are still pending.
+- Source audit checked the complete file selection for local credential filenames and the configured token. Neither was included.
+
+## Public Vercel deployment
+
+- URL: [setlist-surgery.vercel.app](https://setlist-surgery.vercel.app/). The homepage returned 200 and opened in a fresh browser tab without a sign-in prompt.
+- The live API reported Sanity mode and project `raaqr2vc`. Production HTTP checks passed against the real dataset: cancellation blocked three songs; replacements produced 30:40; rehearsal and approval succeeded; reload retained approval; a stale revision returned 409; editing invalidated review; foreign-origin writes returned 403.
+- Browser verification independently completed the rescue: Slow Motion, No Signal, and Glasshouse replaced the three blocked songs; 6/6 playable at 30:40, with 9:20 remaining; Leo stayed unavailable. Rehearsal then approval succeeded, and reload retained the saved running order and Approved state.
+- Captured and inspected the approved Vercel screen at `docs/images/sanity-approved.jpg`. The README and DEV draft now link to the public deployment, and the draft uses the public GitHub screenshot URL.

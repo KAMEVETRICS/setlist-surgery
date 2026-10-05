@@ -6,7 +6,7 @@ tags: devchallenge, sanitychallenge, sanity, ai
 
 *This is a submission for the [Sanity Challenge, Path Two: Vibe-Code Something Strange](https://dev.to/challenges/sanity-2026-09-16).*
 
-<!-- Before publishing: deploy on Vercel and update Demo with its actual accessible URL; upload docs/images/sanity-approved.jpg to DEV and embed its returned image URL below. This file is a local draft and has not been published. -->
+<!-- This is an unpublished draft. The public demo, source, and screenshot links are ready for a DEV submission. -->
 
 ## What I Built
 
@@ -16,9 +16,9 @@ The demonstration uses one fictional band, The Static Lines, with twelve origina
 
 ## Demo
 
-[Open Setlist Surgery](https://setlist-surgery.gabrieltopeawe.chatgpt.site).
+[Open Setlist Surgery](https://setlist-surgery.vercel.app/).
 
-The hosted app is connected to the actual Sanity dataset. **Its audience is currently owner-private; provide working judge access before publishing this entry.**
+The public Vercel app is connected to the actual Sanity dataset. No account or sign-in is required to try it.
 
 To try the scenario:
 
@@ -28,15 +28,13 @@ To try the scenario:
 4. Choose **Check rehearsal**, then **Approve set**. Reload: the approved set is saved in Sanity.
 5. Reorder a song: the review returns to Draft. An approved set also exposes a print view.
 
-![The rescued 30:40 set, saved in Sanity and approved after reload](images/sanity-approved.jpg)
-
-<!-- Upload the image to DEV and replace its relative path with the returned image URL before publication. -->
+![The rescued 30:40 set on Vercel, saved in Sanity and approved after reload](https://raw.githubusercontent.com/KAMEVETRICS/setlist-surgery/main/docs/images/sanity-approved.jpg)
 
 ## Code
 
 [Source on GitHub](https://github.com/KAMEVETRICS/setlist-surgery).
 
-The app uses React and the Next.js App Router. The original preview used a Sites Vinext build on Cloudflare Workers. This GitHub repository keeps a standalone Next.js build for Vercel and omits that hosting scaffold. `lib/engine.ts` owns eligibility and review rules; `lib/show-service.ts` restricts session commands; `lib/sanity.server.ts` owns GROQ and revision-guarded mutations. Studio schemas and the original seed script are included.
+The app uses React and the Next.js App Router, deployed on Vercel. The original preview used a Sites Vinext build on Cloudflare Workers. This GitHub repository keeps the standalone Next.js app and omits that hosting scaffold. `lib/engine.ts` owns eligibility and review rules; `lib/show-service.ts` restricts session commands; `lib/sanity.server.ts` owns GROQ and revision-guarded mutations. Studio schemas and the original seed script are included.
 
 ## My Build Process
 
@@ -51,6 +49,8 @@ The first implementation used shared local storage. A fresh code review identifi
 Some difficulties came from the Windows environment: the global npm launcher resolved its entrypoint relative to the wrong folder, an optional native build package was missing, and the Workers preview needed runtime permissions. Those fixes are recorded in the build journal. The first live seed request also timed out; endpoint checks succeeded and rerunning with IPv4-first DNS ordering completed the seed.
 
 Once the real Sanity project was configured, I verified actual network writes: cancellation, replacements, rehearsal, approval, reload persistence, rejection of an outdated revision, and invalidation after a reorder. A separate check temporarily changed the published venue's changeover from 30 to 31 seconds. The app read the referenced venue, recalculated timing, and invalidated approval. The original value was restored with revision guards. The hosted browser then completed the 30:40 rescue and retained approval after reload.
+
+After deploying the cleaned GitHub repository on Vercel, I repeated the live HTTP checks and the browser rescue without a sign-in prompt. The public deployment saved all three replacements and retained Approved after reload. The screenshot above comes from that Vercel verification.
 
 The interface uses a charcoal show desk, compact musical metadata, a running-order timeline, and a crew panel. Desktop and phone layouts were inspected; mobile control labels and touch targets were corrected during QA. The dedicated print stylesheet is implemented, although a physical print/PDF output has not been captured.
 
