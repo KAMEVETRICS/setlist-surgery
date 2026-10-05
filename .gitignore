@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.vercel/
+dist/
+out/
+coverage/
+studio/.sanity/
+studio/schema.json
+.env*
+!.env.example
+.dev.vars*
+next-env.d.ts
+*.tsbuildinfo
+*.pem
+*.log
+.DS_Store
+outputs/

@@ -1,0 +1,6 @@
+{
+  "name": "setlist-surgery-studio",
+  "private": true,
+  "scripts": { "dev": "sanity dev", "build": "sanity build", "schema": "sanity schema extract --path schema.json" },
+  "dependencies": { "sanity": "6.17.0", "react": "19.2.6", "react-dom": "19.2.6", "styled-components": "^6.1.19" }
+}

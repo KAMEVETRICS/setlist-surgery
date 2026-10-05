@@ -1,0 +1,18 @@
+import { defineField, defineType, defineArrayMember } from 'sanity';
+
+const referenceList = (name: string, to: string, required = false, readOnly = false) => defineField({ name, type:'array', readOnly, of:[defineArrayMember({type:'reference',to:[{type:to}]})], validation:rule => required ? rule.required().min(1).unique() : rule.unique() });
+const text = (name: string) => defineField({name,type:'string',validation:rule => rule.required()});
+const whole = (name: string, min: number, max: number) => defineField({name,type:'number',validation:rule => rule.required().integer().min(min).max(max)});
+const stage = defineField({name:'stage',type:'string',options:{list:['draft','rehearsal','approved']},validation:rule => rule.required()});
+
+export const schemaTypes = [
+  defineType({name:'performer',title:'Performer',type:'document',fields:[text('name'),defineField({name:'initials',type:'string',validation:r=>r.required().max(3)}),text('role'),defineField({name:'available',type:'boolean',initialValue:true,validation:r=>r.required()})],preview:{select:{title:'name',subtitle:'role'}}}),
+  defineType({name:'instrument',title:'Instrument',type:'document',fields:[text('name'),defineField({name:'available',type:'boolean',initialValue:true,validation:r=>r.required()})],preview:{select:{title:'name'}}}),
+  defineType({name:'song',title:'Song arrangement',type:'document',fields:[text('title'),whole('durationSeconds',1,1200),text('key'),whole('bpm',30,300),whole('energy',1,5),defineField({name:'rehearsed',type:'boolean',initialValue:false,validation:r=>r.required()}),referenceList('performers','performer',true),referenceList('instruments','instrument'),defineField({name:'note',type:'text',rows:3})],preview:{select:{title:'title',subtitle:'key'}}}),
+  defineType({name:'venue',title:'Venue',type:'document',fields:[text('name'),text('city'),whole('maxDurationSeconds',60,21600),whole('changeoverSeconds',0,600)],preview:{select:{title:'name',subtitle:'city'}}}),
+  defineType({name:'show',title:'Show',type:'document',fields:[text('title'),text('band'),defineField({name:'date',type:'date',validation:r=>r.required()}),defineField({name:'startTime',type:'string',description:'24-hour local time, HH:MM',validation:r=>r.required().regex(/^([01]\d|2[0-3]):[0-5]\d$/)}),defineField({name:'venue',type:'reference',to:[{type:'venue'}],validation:r=>r.required()}),referenceList('songs','song',true)],preview:{select:{title:'title',subtitle:'date'}}}),
+  defineType({name:'showEvent',type:'object',fields:[text('id'),defineField({name:'at',type:'datetime'}),text('text')]}),
+  defineType({name:'setApproval',type:'object',fields:[text('fingerprint'),defineField({name:'at',type:'datetime'})]}),
+  defineType({name:'sessionState',type:'object',fields:[whole('version',1,1),...['songIds','unavailablePerformerIds','unavailableInstrumentIds'].map(name=>defineField({name,type:'array',of:[defineArrayMember({type:'string'})]})),stage,defineField({name:'reviewFingerprint',type:'text'}),defineField({name:'approval',type:'setApproval'}),defineField({name:'history',type:'array',of:[defineArrayMember({type:'showEvent'})]})]}),
+  defineType({name:'rescueSession',title:'Rescue session',type:'document',readOnly:true,description:'The app manages these records. Edit the source catalogue to change song requirements.',fields:[referenceList('songs','song',false,true),referenceList('unavailablePerformers','performer',false,true),referenceList('unavailableInstruments','instrument',false,true),defineField({name:'reviewStage',type:'string',readOnly:true,options:{list:['draft','rehearsal','approved']}}),defineField({name:'state',type:'sessionState',readOnly:true})],preview:{select:{title:'reviewStage',subtitle:'_id'}}}),
+];
